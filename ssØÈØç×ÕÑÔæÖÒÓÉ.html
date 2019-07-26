@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SecureChat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
+
+<!-- UIkit JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
+
+</head>
+<body>
+        <div class="uk-container">
+                <div class="uk-navbar-container" uk-navbar>
+                        <div class="uk-navbar-center">
+                            <a href="" class="uk-navbar-item uk-logo">Secure Chat</a>
+                        </div>
+                    </div>
+<ul id="messages"  class="uk-list uk-list-divider">
+    
+    </ul>
+
+
+    <form class="uk-grid-small" uk-grid>
+            <div class="uk-width-1-1">
+                <input class="uk-input" type="text" placeholder="..." id="m" autocomplete="off" /><button class="uk-button uk-button-secondary uk-width-1-1">Send</button>
+            </div>
+         
+        </form>
+
+    </div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+
+
+$(".uk-container").hide();
+var pass= localStorage.getItem("password");
+
+
+$.get( "ajax/test.html", function( data ) {
+ if(pass==data){
+
+    $(".uk-container").show();
+ }
+});
+
+
+
+    function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+
+
+    var color = getRandomColor();
+
+
+  $(function () {
+    var socket = io();
+
+
+    
+    $('form').submit(function(e){
+      e.preventDefault(); // prevents page reloading
+      socket.emit('chat message', $('#m').val()+ " COLOR " + color);
+      $('#m').val('');
+      return false;
+    });
+
+    socket.on('chat message', function(msg){
+        var msg = msg.split(" COLOR ")
+        if(msg[1]==color){
+            $('#messages').append($('<li class="uk-text-right">').text(msg[0]));
+
+        }else{
+      $('#messages').append($('<li>').text(msg[0]));
+        }$("li").last().css("color",msg[1])
+    });
+  });
+</script>
+
+</body>
+</html>
