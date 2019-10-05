@@ -1,125 +1,244 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hello, world!</title>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Huddle</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
   <script src="https://unpkg.com/carbon-components/scripts/carbon-components.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
+    type="text/css">
   <style>
-   body {
-        margin: 0;
-      }
-      .bx--btn{text-align:center}
-.col-md-12,.butcol{margin-bottom:.5em}
-  .butcol{align-items:center}
+    .spinner {
+      margin: 100px auto;
+      width: 40px;
+      height: 40px;
+      position: relative;
+      text-align: center;
 
-.centertile{margin:auto;width:75%}
-      .centerthis {
-        display: flex;
-        justify-content: center;
-        align-items: center;
- 
-        height: 100vh;
+      -webkit-animation: sk-rotate 2.0s infinite linear;
+      animation: sk-rotate 2.0s infinite linear;
+    }
+
+    .dot1,
+    .dot2 {
+      width: 60%;
+      height: 60%;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      background-color: #333;
+      border-radius: 100%;
+
+      -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+      animation: sk-bounce 2.0s infinite ease-in-out;
+    }
+
+    .dot2 {
+      top: auto;
+      bottom: 0;
+      -webkit-animation-delay: -1.0s;
+      animation-delay: -1.0s;
+    }
+
+    @-webkit-keyframes sk-rotate {
+      100% {
+        -webkit-transform: rotate(360deg)
       }
-  .flex {
-  display: flex;
-  flex-wrap:  wrap;
-  justify-content: center;
-  align-items: center;
-}</style>
-  </head>
-  <body>
+    }
+
+    @keyframes sk-rotate {
+      100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg)
+      }
+    }
+
+    @-webkit-keyframes sk-bounce {
+
+      0%,
+      100% {
+        -webkit-transform: scale(0.0)
+      }
+
+      50% {
+        -webkit-transform: scale(1.0)
+      }
+    }
+
+    @keyframes sk-bounce {
+
+      0%,
+      100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+      }
+
+      50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+      }
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .bx--btn {
+      text-align: center
+    }
+
+    .col-md-12,
+    .butcol {
+      margin-bottom: .5em
+    }
+
+    .butcol {
+      align-items: center
+    }
+
+    .centertile {
+      margin: auto;
+      width: 75%
+    }
+
+    .centerthis {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 100vh;
+    }
+
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button {
+      -webkit-app-region: no-drag;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header aria-label="Huddle" class="bx--header" style="-webkit-app-region: drag" role="banner"><a
+      class="bx--header__name" href="#"><span class="bx--header__name--prefix">Huddle</span></a>
+    <div class="bx--header__global"><button id="min-btn" aria-label="Search" class="bx--header__action" type="button">
+        <ion-icon style="color:white" name="remove"></ion-icon>
+      </button><button id="max-btn" aria-label="Notifications" class="bx--header__action" type="button">
+        <ion-icon style="color:white" name="expand"></ion-icon>
+
+      </button><button id="close-btn" aria-label="App Switcher" class="bx--header__action" type="button">
+        <ion-icon style="color:white" name="close"></ion-icon>
+      </button></div>
+  </header>
   <center>
-<div class="centerthis">
-<div class="bx--tile centertile row">
-    <div class="col-xs-12
+    <div class="centerthis">
+      <div class="bx--tile centertile row">
+        <div class="col-xs-12
     col-sm-12
     col-md-12
     col-lg-12">
 
-    <h1>Huddle</h1>
-</div>    <div class="col-xs-12
+          <h1>Huddle</h1>
+          <div id="spinner" class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+          </div>
+        </div>
+        <div class="col-xs-12
 col-sm-12
 col-md-12
 col-lg-12">
 
-<h4>Welcome. Enter your details.</h4>
-</div>
-<div class="col-xs-12
+          <h4 id="loading">Welcome. Enter your details.</h4>
+        </div>
+        <div class="col-xs-12
 col-sm-12
 col-md-12
 col-lg-12">
-<div 
-  class="bx--form-item bx--text-input-wrapper">
-  <label for="text-input-3" class="bx--label">Enter Username</label>
-  <div class="bx--text-input__field-wrapper">
-    <input id="text-input-3" type="text"
-      class="bx--text-input" placeholder="Secretman2092">
-  </div>
-</div>
-</div>
-<div class="col-xs-12
-col-sm-12
-col-md-12
-col-lg-12">
-
-<h6>Enter a secret code below to either join an existing Huddle or Create a new one.</h6>
-</div>
-
-<div class="col-xs-12
+          <div class="bx--form-item bx--text-input-wrapper">
+            <label for="username" class="bx--label">Enter Username</label>
+            <div class="bx--text-input__field-wrapper">
+              <input id="username" type="text" class="bx--text-input" placeholder="Secretman2092">
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12
 col-sm-12
 col-md-12
 col-lg-12">
 
+          <h6>Enter a secret code below to join an existing Huddle, or click on New to create your own.</h6>
+        </div>
 
-
-
-
-<div 
-  class="bx--form-item bx--text-input-wrapper">
-  <label for="text-input-3" class="bx--label">Enter Code</label>
-  <div class="bx--text-input__field-wrapper">
-    <input id="text-input-3" type="text"
-      class="bx--text-input" placeholder="Secretman2092">
-  </div>
-
-</div>
-
-
-</div>
-
-<div class="col-xs-12
+        <div class="col-xs-12
 col-sm-12
 col-md-12
 col-lg-12">
-<div class="row">
-<div class="butcol col-xs-12
+
+
+
+
+
+          <div class="bx--form-item bx--text-input-wrapper">
+            <label for="code" class="bx--label">Enter Code</label>
+            <div class="bx--text-input__field-wrapper">
+              <input id="code" type="password" class="bx--text-input" placeholder="Secretman2092">
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div class="col-xs-12
+col-sm-12
+col-md-12
+col-lg-12">
+          <div class="row">
+            <div class="butcol col-xs-12
 col-sm-6
 col-md-6
 col-lg-6">
-<button class="bx--btn bx--btn--ghost">
-     New
-    </button>
-    </div>
-   <div class="butcol col-xs-12
+              <button id="new" class="bx--btn bx--btn--ghost">
+                New
+              </button>
+            </div>
+            <div class="butcol col-xs-12
 col-sm-6
 col-md-6
 col-lg-6">
-<button class="bx--btn bx--btn--primary">
-     Join
-    </button>
+              <button id="join" class="bx--btn bx--btn--primary">
+                Join
+              </button>
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
     </div>
-    
-    
-    </div>
-    
-    </div>
-    
-    
-    </div>
-  
-</div>
-</center></html>
+
+  </center>
+
+
+  <script src="./renderer.js"></script>
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script>
+    $("#spinner").hide();
+  </script>
+
+</html>

@@ -2,52 +2,118 @@
 <html lang="en">
 
 <head>
-  <title>SecureChat</title>
+  <title>Huddle</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- UIkit CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
+  <script src="https://unpkg.com/carbon-components/scripts/carbon-components.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
+    type="text/css">
 
-  <!-- UIkit JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
+  <style>
+    input[type=text] {
+      height: 48px;
+    }
 
+    .bx--btn.bx--btn--secondary {
+      width: 100%
+    }
+
+    .row {
+      margin: 0;
+      width: 100vw
+    }
+
+    .col-xs-1,
+    .col-xs-11 {
+      padding: 0
+    }
+
+    .hash {
+      text-align: center;
+      color: black;
+      border: 3px solid #408bfc;
+      background: white;
+    }
+
+    center {
+      height: calc(100vh - 96px);
+      overflow-y: scroll;
+      margin-top: 48px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="uk-container">
-    <div class="uk-navbar-container" uk-navbar>
-      <div class="uk-navbar-center">
-        <a href="" class="uk-navbar-item uk-logo">Secure Chat</a>
+  <header aria-label="Huddle" class="bx--header" style="-webkit-app-region: drag" role="banner"><a
+      class="bx--header__name" href="#"><span class="bx--header__name--prefix">Huddle</span></a>
+    <div class="bx--header__global"><button id="min-btn" aria-label="Search" class="bx--header__action" type="button">
+        <ion-icon style="color:white" name="remove"></ion-icon>
+      </button><button id="max-btn" aria-label="Notifications" class="bx--header__action" type="button">
+        <ion-icon style="color:white" name="expand"></ion-icon>
+
+      </button><button id="close-btn" aria-label="App Switcher" class="bx--header__action" type="button">
+        <ion-icon style="color:white" name="close"></ion-icon>
+      </button></div>
+  </header>
+
+  <center>
+
+
+    <div data-notification class="bx--inline-notification bx--inline-notification--info hash" role="alert">
+      <div class="bx--inline-notification__details">
+        <div class="bx--inline-notification__text-wrapper">
+          <p class="bx--inline-notification__title">Secret Code: </p>
+          <p class="bx--inline-notification__subtitle "><span id="hashcode"></span></p>
+        </div>
       </div>
+
     </div>
+
+
+
+  </center>
+
+
+  <div class="uk-container">
+
     <ul id="messages" class="uk-list uk-list-divider">
 
     </ul>
+    <div class="row">
+      <div class="col-xs-11">
+        <div class="box">
+          <div class="bx--form-item bx--text-input-wrapper">
+            <div class="bx--text-input__field-wrapper">
+              <input id="m" type="text" class="bx--text-input" placeholder="Placeholder text">
+            </div>
+          </div>
 
 
-    <form class="uk-grid-small" uk-grid>
-      <div class="uk-width-1-1">
-        <input class="uk-input" type="text" placeholder="..." id="m" autocomplete="off" /><button
-          class="uk-button uk-button-secondary uk-width-1-1">Send</button>
+
+          </form>
+        </div>
       </div>
+      <div class="col-xs-1">
+        <div class="box"><button id="send" class="bx--btn bx--btn--secondary" type="button">
+            Send
+          </button></div>
 
-    </form>
+      </div>
+    </div>
+
+    <form>
+
+
 
   </div>
 
-
+  <script src="./renderer.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
   <script>
-    $(".uk-container").hide();
-    var pass = localStorage.getItem("password");
-
-
-    $(".uk-container").show();
-
-
-
     function getRandomColor() {
       var letters = '0123456789ABCDEF';
       var color = '#';
@@ -58,37 +124,45 @@
     }
 
 
-
     var color = getRandomColor();
 
 
     $(function () {
-      var socket = io("https://192.168.1.16" + ":3000", {
+      var socket = io("http://" + user.ip + ":3000", {
         "forceBase64": 1
       });
 
-
-
-      $('form').submit(function (e) {
+      $('#send').on("click", function (e) {
         e.preventDefault(); // prevents page reloading
-        socket.emit('chat message', $('#m').val() + " COLOR " + color);
+        var x = window.obfuscate($('#m').val() + " COLOR " + color + " COLOR " + user.name);
+        socket.emit('chat message', x);
         $('#m').val('');
         return false;
       });
 
-      socket.on('chat message', function (msg) {
-        console.log(msg);
-        var msg = msg.split(" COLOR ")
-        if (msg[1] == color) {
-          $('#messages').append($('<li class="uk-text-right">').text(msg[0]));
+      socket.on('chat message', function (message) {
+        console.log(message);
 
-        } else {
-          $('#messages').append($('<li>').text(msg[0]));
-        }
-        $("li").last().css("color", msg[1])
+        var msg = window.unobfuscate(message);
+        msg = msg.split(" COLOR ");
+
+        $('center').append(` <div data-notification class="bx--inline-notification bx--inline-notification--info "
+            role="alert">
+            <div class="bx--inline-notification__details">
+              <div class="bx--inline-notification__text-wrapper">
+                <p class="bx--inline-notification__title">` + msg[2] + ` </p>
+                <p class="bx--inline-notification__subtitle ">` + msg[0] + `</p>
+              </div>
+            </div>
+
+          </div>`);
+        $(".bx--inline-notification--info").last().css("border", "none")
+        var side = msg[1] == color ? "border-right" : "border-left";
+        $(".bx--inline-notification--info").last().css(side, "10px solid " + msg[1])
       });
     });
   </script>
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 
 </body>
 

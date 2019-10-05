@@ -1,0 +1,30 @@
+{
+  "name": "Huddle",
+  "version": "0.1.0",
+  "description": "Huddle is a P2P chat client.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/Yodamaul/Huddle",
+  "keywords": [
+    "Electron",
+    "P2P",
+    "Anonymous"
+  ],
+  "author": "Yodamaul",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^6.0.10"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
+    "electron-store": "^5.0.0",
+    "express": "^4.17.1",
+    "ip": "^1.1.5",
+    "ipfs-mini": "^1.1.5",
+    "socket.io": "^2.3.0",
+    "socketio": "^1.0.0"
+  }
+}
