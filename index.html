@@ -1,82 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <title>SecureChat</title>
+  <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- UIkit CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, world!</title>
+  <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
+  <script src="https://unpkg.com/carbon-components/scripts/carbon-components.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >
+  <style>
+   body {
+        margin: 0;
+      }
+      .bx--btn{text-align:center}
+.col-md-12,.butcol{margin-bottom:.5em}
+  .butcol{align-items:center}
 
-<!-- UIkit JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
+.centertile{margin:auto;width:75%}
+      .centerthis {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+ 
+        height: 100vh;
+      }
+  .flex {
+  display: flex;
+  flex-wrap:  wrap;
+  justify-content: center;
+  align-items: center;
+}</style>
+  </head>
+  <body>
+  <center>
+<div class="centerthis">
+<div class="bx--tile centertile row">
+    <div class="col-xs-12
+    col-sm-12
+    col-md-12
+    col-lg-12">
 
-</head>
-<body>
-        <div class="uk-container">
-                <div class="uk-navbar-container" uk-navbar>
-                        <div class="uk-navbar-center">
-                            <a href="" class="uk-navbar-item uk-logo">Secure Chat</a>
-                        </div>
-                    </div>
-<ul id="messages"  class="uk-list uk-list-divider">
-    
-    </ul>
+    <h1>Huddle</h1>
+</div>    <div class="col-xs-12
+col-sm-12
+col-md-12
+col-lg-12">
+
+<h4>Welcome. Enter your details.</h4>
+</div>
+<div class="col-xs-12
+col-sm-12
+col-md-12
+col-lg-12">
+<div 
+  class="bx--form-item bx--text-input-wrapper">
+  <label for="text-input-3" class="bx--label">Enter Username</label>
+  <div class="bx--text-input__field-wrapper">
+    <input id="text-input-3" type="text"
+      class="bx--text-input" placeholder="Secretman2092">
+  </div>
+</div>
+</div>
+<div class="col-xs-12
+col-sm-12
+col-md-12
+col-lg-12">
+
+<h6>Enter a secret code below to either join an existing Huddle or Create a new one.</h6>
+</div>
+
+<div class="col-xs-12
+col-sm-12
+col-md-12
+col-lg-12">
 
 
-    <form class="uk-grid-small" uk-grid>
-            <div class="uk-width-1-1">
-                <input class="uk-input" type="text" placeholder="..." id="m" autocomplete="off" /><button class="uk-button uk-button-secondary uk-width-1-1">Send</button>
-            </div>
-         
-        </form>
 
+
+
+<div 
+  class="bx--form-item bx--text-input-wrapper">
+  <label for="text-input-3" class="bx--label">Enter Code</label>
+  <div class="bx--text-input__field-wrapper">
+    <input id="text-input-3" type="text"
+      class="bx--text-input" placeholder="Secretman2092">
+  </div>
+
+</div>
+
+
+</div>
+
+<div class="col-xs-12
+col-sm-12
+col-md-12
+col-lg-12">
+<div class="row">
+<div class="butcol col-xs-12
+col-sm-6
+col-md-6
+col-lg-6">
+<button class="bx--btn bx--btn--ghost">
+     New
+    </button>
     </div>
-
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-
-
-
-    function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-
-
-    var color = getRandomColor();
-
-
-  $(function () {
-    var socket = io();
-
-
+   <div class="butcol col-xs-12
+col-sm-6
+col-md-6
+col-lg-6">
+<button class="bx--btn bx--btn--primary">
+     Join
+    </button>
+    </div>
     
-    $('form').submit(function(e){
-      e.preventDefault(); // prevents page reloading
-      socket.emit('chat message', $('#m').val()+ " COLOR " + color);
-      $('#m').val('');
-      return false;
-    });
-
-    socket.on('chat message', function(msg){
-        var msg = msg.split(" COLOR ")
-        if(msg[1]==color){
-            $('#messages').append($('<li class="uk-text-right">').text(msg[0]));
-
-        }else{
-      $('#messages').append($('<li>').text(msg[0]));
-        }$("li").last().css("color",msg[1])
-    });
-  });
-</script>
-
-</body>
-</html>
+    
+    </div>
+    
+    </div>
+    
+    
+    </div>
+  
+</div>
+</center></html>

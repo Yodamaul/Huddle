@@ -1,2 +1,3 @@
-# SecureChat
-A Secure Chat Application that uses Socket.io 
+# Huddle
+
+Huddle is a minimalist chat application that uses Socket.IO
